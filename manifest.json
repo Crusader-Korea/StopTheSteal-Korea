@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "국회입법예고 도우미",
+  "version": "1.0.2",
+  "description": "국회입법예고 시스템에서 의견 등록을 돕는 확장프로그램",
+  "permissions": ["storage", "activeTab", "tabs"],
+  "host_permissions": [
+    "https://pal.assembly.go.kr/*",
+    "https://member.assembly.go.kr/*",
+    "https://www.assembly.go.kr/*",
+    "https://vforkorea.com/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  },
+  "background": {
+    "service_worker": "js/background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://member.assembly.go.kr/login/loginPage.do",
+        "https://pal.assembly.go.kr/napal/lgsltpa/lgsltpaOngoing/list.do*",
+        "https://pal.assembly.go.kr/napal/lgsltpa/lgsltpaOpn/forInsert.do*",
+        "https://vforkorea.com/assem/*"
+      ],
+      "js": ["js/utils/logger.js", "js/content.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "commands": {
+    "auto-register-first": {
+      "suggested_key": {
+        "default": "Alt+Q"
+      },
+      "description": "첫 번째 법안 자동등록"
+    }
+  }
+}

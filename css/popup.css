@@ -1,0 +1,865 @@
+body {
+  width: 600px;
+  height: 900px;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.container {
+  text-align: left;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 21px;
+  color: #333;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: 16px;
+  color: #666;
+  margin-top: 20px;
+  font-weight: 500;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 5px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+input:focus, textarea:focus {
+  border-color: #007AFF;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.1);
+}
+
+button {
+  background-color: #007AFF;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 10px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #0051FF;
+}
+
+#bills-list {
+  max-height: calc(100% - 120px);
+  overflow-y: auto;
+  margin-top: 10px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#bills-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+#bills-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+#bills-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+#bills-list::-webkit-scrollbar-thumb:hover {
+  background: #a1a1a1;
+}
+
+.bill-item {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bill-item:hover {
+  background-color: #f8f9ff;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.bill-title {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.bill-info {
+  font-size: 0.9em;
+  color: #666;
+}
+
+.bill-info span {
+  margin-right: 10px;
+}
+
+#bills-count {
+  margin: 15px 0;
+  font-size: 18px;
+  font-weight: 500;
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+/* 페이지네이션 관련 스타일 제거 */
+#pagination,
+#pagination button,
+#page-info {
+  display: none;
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 100;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+.header-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.login-status {
+  font-size: 13px;
+  color: #666;
+}
+
+.login-status.logged-in {
+  color: #007AFF;
+}
+
+.login-status.checking {
+  color: #666;
+  opacity: 0.7;
+}
+
+.login-button {
+  background: none;
+  border: 1px solid #007AFF;
+  color: #007AFF;
+  padding: 5px 12px;
+  border-radius: 15px;
+  margin-top: 0px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s, display 0s;
+}
+
+.login-button:hover {
+  background: #007AFF;
+  color: white;
+}
+
+.login-button.hidden {
+  display: none;
+}
+
+/* 삭제할 스타일들 */
+.settings-button,
+.modal,
+.modal-content,
+.modal-header,
+.modal-body,
+#close-settings,
+.settings-content,
+.settings-section {
+  display: block;
+}
+
+/* 법안 목록 스타일 추가 */
+.bill-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px 24px;
+  gap: 16px;
+}
+
+.bill-header-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: 16px;
+}
+
+.toggle-info-btn {
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.toggle-info-btn:hover {
+  background: #f5f5f5;
+}
+
+.bill-info {
+  background-color: #f8f9fa;
+  padding: 15px;
+  margin: 0 10px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.bill-item {
+  border-bottom: 1px solid #eee;
+  padding: 5px 0;
+}
+
+.bill-item:hover {
+  background-color: #f5f7fa;
+}
+
+.bill-title {
+  flex: 1;
+  padding-right: 10px;
+}
+
+/* 카드 스타일 */
+.bill-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 12px 0;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+  word-break: break-word;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.bill-card.expanded {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.bill-title-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.bill-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  line-height: 1.4;
+}
+
+.bill-meta {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.party-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-right: 12px;
+  max-width: 100%;
+}
+
+.party-tag {
+  background: #f5f5f5;
+  color: #666;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.party-tag.red {
+  background: #fde8e8;
+  color: #c53030;
+}
+
+.party-tag.blue {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.party-tag b {
+  margin-left: 4px;
+  font-weight: 600;
+}
+
+.opinion-count {
+  color: #666;
+  font-size: 12px;
+}
+
+.bill-content {
+  padding: 0 24px 24px;
+  border-top: 1px solid #eee;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.bill-section {
+  margin: 16px 0;
+}
+
+.bill-section h4 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  color: #666;
+}
+
+.bill-section p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.bill-pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.bill-pros-cons .negative {
+  order: 1;
+}
+
+.bill-pros-cons .positive {
+  order: 2;
+}
+
+.positive h4 {
+  color: #2e7d32;
+}
+
+.negative h4 {
+  color: #c62828;
+}
+
+.register-opinion-btn {
+  width: 100%;
+  padding: 16px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 20px;
+}
+
+.register-opinion-btn:hover {
+  background: #1565c0;
+}
+
+/* 제안자 목록 팝업 스타일 수정 */
+.proposer-modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  max-width: 600px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.proposer-modal h1 {
+  font-size: 18px;
+  color: #333;
+  margin: 0 0 15px 0;
+  display: flex;
+  align-items: center;
+}
+
+.proposer-modal .title {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+  line-height: 1.4;
+}
+
+.proposer-modal .partyList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.proposer-modal .partyList li {
+  margin: 0;
+}
+
+.proposer-modal .party {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #333;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background 0.2s;
+  text-align: center;
+}
+
+.proposer-modal .party:hover {
+  background: #f5f7fa;
+}
+
+/* 의원 이름 스타일 */
+.proposer-modal .party-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* 정당 이름 스타일 */
+.proposer-modal .party span {
+  font-size: 14px;
+  margin-top: 4px;
+}
+
+.proposer-modal .party span.blue {
+  color: #1976d2;
+  font-weight: 500;
+}
+
+.proposer-modal .party span.red {
+  color: #c53030;
+  font-weight: 500;
+}
+
+.proposer-modal button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 20px;
+  background: #f5f7fa;
+  border: none;
+  border-radius: 6px;
+  color: #666;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.proposer-modal button:hover {
+  background: #e9ecef;
+}
+
+.modal-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* 의견등록 완료된 카드 스타일 수정 */
+.bill-card.opinion-registered {
+  background-color: #f0f7ff;
+  border: 1px solid #cce3ff;
+}
+
+/* 버튼 비활성화 스타일 제거 */
+.bill-card.opinion-registered .register-opinion-btn {
+  background: #1976d2;  /* 기본 버튼 색상 유지 */
+}
+
+/* 의견등록 완료 상태 표시 */
+.opinion-status {
+  display: none;
+  color: #2e7d32;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.bill-card.opinion-registered .opinion-status {
+  display: block;
+}
+
+/* 의견등록 버튼 비활성화 스타일 추가 */
+.register-opinion-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+/* 의견등록 액션 영역 스타일 */
+.bill-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+/* 축하 모달 스타일 */
+.celebration-modal {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 2000;
+  text-align: center;
+  animation: modalPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(10px);
+  width: 80%;
+  max-width: 400px;
+}
+
+.celebration-modal h2 {
+  font-size: 24px;
+  color: #1976d2;
+  margin-bottom: 20px;
+  font-weight: 700;
+}
+
+.celebration-modal p {
+  font-size: 18px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* 폭죽 효과 컨테이너 */
+.fireworks {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1999;
+  pointer-events: none;
+}
+
+/* 애니메이션 */
+@keyframes modalPop {
+  0% {
+    transform: translate(-50%, -40%);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-50%, -50%);
+    opacity: 1;
+  }
+}
+
+@keyframes confetti {
+  0% { transform: translateY(0) rotateZ(0); opacity: 1; }
+  100% { transform: translateY(1000px) rotateZ(720deg); opacity: 0; }
+}
+
+/* 컨페티 스타일 */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+}
+
+.confetti.square {
+  width: 15px;
+  height: 15px;
+  background: #1976d2;
+  transform: rotate(45deg);
+}
+
+.confetti.circle {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: #4caf50;
+}
+
+.confetti.triangle {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 20px solid #ff9800;
+  background: transparent;
+}
+
+/* 푸터 스타일 추가 */
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0;
+  margin-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.footer .logo {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #000;
+  position: relative;
+}
+
+.footer .logo:hover {
+  color: #007AFF;
+}
+
+.footer .logo::after {
+  content: '대한민국 승리의 그날까지';
+  font-weight: 300;
+  font-size: 10px;
+  display: block;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  background: #111;
+  color: #EEE;
+}
+
+.checking {
+  color: #666;
+  opacity: 0.7;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+}
+
+#bills-count.checking {
+  color: #666;
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #1976d2;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+.loading-text {
+  color: #333;
+}
+
+.loading-text p {
+  margin: 5px 0;
+}
+
+.loading-subtext {
+  font-size: 0.9em;
+  color: #666;
+  animation: pulse 2s infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 설정 버튼 스타일 수정 */
+.settings-button {
+  background: none;
+  border: none;
+  color: #666;
+  padding: 5px;
+  cursor: pointer;
+  margin-top: 0px;
+  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.settings-button:hover {
+  color: #007AFF;
+}
+
+/* 설정 모달 스타일 */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+}
+
+.settings-section {
+  margin-bottom: 20px;
+}
+
+.settings-section label {
+  display: block;
+  margin-bottom: 8px;
+  color: #666;
+}
+
+.settings-section input,
+.settings-section textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.save-button {
+  width: 100%;
+  padding: 12px;
+  background: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+/* 자동등록 버튼 스타일 수정 */
+.auto-register-btn {
+  background: #28a745;
+  color: white;
+  width: 60px;
+  height: 60px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.auto-register-btn:hover {
+  background: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
